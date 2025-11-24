@@ -1,0 +1,183 @@
+Core Modules & Features for Your MVP
+1. Authentication & User Management (RBAC)
+
+    Purpose: Control who can see and do what.
+
+    Features:
+
+        Login/Logout: Standard email/username and password.
+
+        Password Reset: "Forgot Password" flow.
+
+        Role-Based Access Control (RBAC): Two simple roles to start with:
+
+            Admin: Can do everything (manage vehicles, clients, staff, all rentals).
+
+            Staff: Can view vehicles and clients, and create/manage rentals. Cannot onboard new vehicles or staff.
+
+2. Dashboard
+
+    Purpose: A quick, high-level overview of the business.
+
+    Key Widgets/Data Points:
+
+        Total Number of Vehicles (with a breakdown by status: Available, Rented, In Maintenance).
+
+        Currently Active Rentals (count).
+
+        Upcoming Rentals (for the next 7 days).
+
+        Vehicles Due for Service/Maintenance.
+
+        Quick Links: "Add New Vehicle", "Create New Rental", "View All Rentals".
+
+3. Vehicle Management
+
+    Purpose: The core asset management of the business.
+
+    Features:
+
+        Vehicle List Page:
+
+            Table showing: Thumbnail, Number Plate, Make/Model, Type, Color, Status.
+
+            Filters/Search: By Number Plate, Color, Vehicle Type (Compact, Sedan, Mid-SUV, SUV, OFF-Road 4x4), Status.
+
+            "Add Vehicle" Button: Triggers the onboarding wizard.
+
+        Vehicle Onboarding Wizard (3 Steps):
+
+            Basic Details: Number Plate (Unique), Make, Model, Year, Color, Vehicle Type, Daily Rate, Odometer (current mileage).
+
+            Compliance & Docs: Insurance Expiry Date, License/Registration Expiry Date.
+
+            Finalize: Review all entered data and submit.
+
+        Vehicle Details Page (Tabbed View):
+
+            Summary Tab: All basic and compliance details. A button to "Book This Vehicle".
+
+            Rental History Tab: A grid/list of past and current rentals for this vehicle.
+
+                Columns: Rental ID, Client Name, Start Date, End Date, Start Mileage, End Mileage, Total Days, Total Cost.
+
+            Service History Tab: A log of all maintenance.
+
+                Fields: Date, Service Type (e.g., Oil Change, Tire Rotation), Description, Cost, Odometer Reading.
+
+4. Client Management
+
+    Purpose: Manage customer information and documents.
+
+    Features:
+
+        Client List Page:
+
+            Table showing: Name, Email, Phone Number, Driver's License Number.
+
+            Search: By Name, Email, or License Number.
+
+            "Add Client" Button: Triggers the onboarding wizard.
+
+        Client Onboarding Wizard (2 Steps):
+
+            Personal Details: Full Name, Email, Phone Number, Address, Driver's License Number.
+
+            Document Upload: Drag-and-drop or file selector for Driver's License and Passport/ID. (Store file paths/URLs in the database).
+
+        Client Details Page (Tabbed View):
+
+            Profile Tab: All personal details and links to download uploaded documents.
+
+            Rental History Tab: A grid of all rentals associated with this client (same columns as in Vehicle History).
+
+5. Rental Management
+
+    Purpose: The core business transaction.
+
+    Features:
+
+        Rental List Page:
+
+            Table showing: Rental ID, Vehicle (Number Plate), Client Name, Start Date, End Date, Status (Reserved, Active, Completed, Cancelled).
+
+            Filters: By Status, Date Range.
+
+            "Create Rental" Button: Triggers the booking wizard.
+
+        Booking Wizard (Initiated from Vehicle Details or here):
+
+            Select Vehicle & Dates:
+
+                If starting from "Create Rental," first select a vehicle from the available list.
+
+                Choose Start and End Date/Time.
+
+                System calculates: Duration (in days) and Total Price (Duration * Vehicle's Daily Rate). Display this prominently.
+
+            Select Client:
+
+                Search and select an existing client, or have an option to "Add New Client" (which would open a quick client form).
+
+            Review & Confirm:
+
+                Show a summary: Vehicle, Dates, Duration, Client, Total Cost.
+
+                "Confirm Booking" button.
+
+        Rental Details Page:
+
+            Summary Tab: All rental information, pricing, and status. Buttons for key actions (e.g., "Check-in Vehicle", "Check-out Vehicle").
+
+            Vehicle Tab: Snapshot of the vehicle details at the time of rental.
+
+            Client Tab: Snapshot of the client details.
+
+6. Staff Management (Admin Only)
+
+    Purpose: Manage users who can access the app.
+
+    Features:
+
+        Staff List Page: Shows staff usernames, roles, and status (Active/Inactive).
+
+        Add Staff Wizard: A simple form to create a new staff account.
+
+            Fields: Username/Email, Password, Assign Role (Admin/Staff).
+
+Refined & Actionable Summary for an AI Agent
+
+Project: Car Rental Management MVP Web App
+
+Tech Stack Suggestion: USE MYSQL
+
+DB_NAME: chenjcoz_eunoia
+DB_USER: chenjcoz_123
+DB_PASSWORD: TSfo2p6Y63Ww.#
+DB_HOST: www.chenj.co.zw
+
+
+
+Core Data Models (Database Tables):
+
+    User (for Staff/Admin): id, username, password_hash, role (Admin/Staff)
+
+    Vehicle: id, number_plate (unique), make, model, color, type, daily_rate, status, insurance_expiry, license_expiry
+
+    Client: id, full_name, email, phone, driver_license_number, license_image_path, passport_image_path
+
+    Rental: id, vehicle_id (FK), client_id (FK), start_date, end_date, total_cost, status, start_mileage, end_mileage
+
+    Service: id, vehicle_id (FK), service_date, service_type, description, cost, odometer_reading
+
+User Flow & Priority for Development:
+
+    Set up Authentication: Login, Logout, and protect routes based on RBAC.
+
+    Build Core Models: Vehicle and Client. Create their list and detail pages.
+
+    Implement Rentals: This is the most complex but most important module. Connect Vehicles and Clients.
+
+    Create the Dashboard: Populate it with data from the models created in steps 2 & 3.
+
+    Add Staff Management: Since you'll be the first Admin, this can come last.
